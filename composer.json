@@ -1,0 +1,31 @@
+{
+  "name": "queue/beanstalk-driver",
+  "type": "library",
+  "description": "Beanstalk driver for Queue",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dries De Peuter",
+      "email": "dries@nousefreak.be"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "queue/queue": "dev-master",
+    "pda/pheanstalk": "^3.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.1",
+    "monolog/monolog": "^1.17"
+  },
+  "autoload": {
+    "psr-4": {
+      "Queue\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Queue\\": "tests/"
+    }
+  }
+}
