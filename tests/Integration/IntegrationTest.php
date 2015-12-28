@@ -14,7 +14,6 @@ use Pheanstalk\Pheanstalk;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Queue\Executor\CallbackExecutor;
-use Queue\Executor\JobExecutor;
 use Queue\Job\Job;
 use Queue\Worker\Worker;
 
