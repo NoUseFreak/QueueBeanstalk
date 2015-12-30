@@ -11,7 +11,7 @@ services:
 
 before_script:
   - composer install --dev
-  - docker run -d -p 11300:11300 schickling/beanstalkd
+  - docker run -d -p 127.0.0.1:11300:11300 schickling/beanstalkd
 
 script:
   - phpunit --coverage-clover=coverage.clover
@@ -19,3 +19,7 @@ script:
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+matrix:
+  allow_failures:
+    - php: hhvm # Strange docker/hhvm issue.
