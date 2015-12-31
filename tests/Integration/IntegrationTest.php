@@ -38,7 +38,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testAddJob()
     {
         $driver = new BeanstalkDriver(new Pheanstalk(getenv('BEANSTALK_HOST')));
-        $driver->addJob(new Job('test', ['callback' => [self::class, 'jobCallback']]));
+        $queue = new Queue($driver);
+        $queue->addJob(new Job('test', ['callback' => [self::class, 'jobCallback']]));
 
         $logger = $this->getMockBuilder(LoggerInterface::class)
             ->getMock();

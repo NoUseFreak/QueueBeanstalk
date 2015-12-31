@@ -40,27 +40,31 @@ class BeanstalkDriver implements DriverInterface
         $this->serializer = new JobSerializer();
     }
 
-    public function addJob(JobInterface $job)
+    public function addJob($queueName, JobInterface $job)
     {
         $this->pheanstalk
+            ->useTube($queueName)
             ->put($this->serializer->serialize($job));
     }
 
-    public function resolveJob()
+    public function resolveJob($queueName)
     {
         $job = $this->pheanstalk
+            ->watch($queueName)
             ->reserve();
 
         return $this->serializer->unserialize($job);
     }
 
-    public function removeJob(JobInterface $job)
+    public function removeJob($queueName, JobInterface $job)
     {
-        $this->pheanstalk->delete(new Job($job->getData()['_beanstalk_id'], []));
+        $this->pheanstalk
+            ->delete(new Job($job->getData()['_beanstalk_id'], []));
     }
 
-    public function buryJob(JobInterface $job)
+    public function buryJob($queueName, JobInterface $job)
     {
-        $this->pheanstalk->bury(new Job($job->getData()['_beanstalk_id'], []));
+        $this->pheanstalk
+            ->bury(new Job($job->getData()['_beanstalk_id'], []));
     }
 }

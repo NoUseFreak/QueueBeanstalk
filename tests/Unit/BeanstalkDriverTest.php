@@ -21,11 +21,15 @@ class BeanstalkDriverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $pheanstalk->expects($this->once())
+            ->method('useTube')
+            ->with('test')
+            ->willReturnSelf();
+        $pheanstalk->expects($this->once())
             ->method('put');
 
         $driver = new BeanstalkDriver($pheanstalk);
 
-        $driver->addJob(new Job('test'));
+        $driver->addJob('test', new Job('test'));
     }
 
     public function testResolveJob()
@@ -34,11 +38,15 @@ class BeanstalkDriverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $pheanstalk->expects($this->once())
+            ->method('watch')
+            ->with('test')
+            ->willReturnSelf();
+        $pheanstalk->expects($this->once())
             ->method('reserve')
             ->willReturn(new \Pheanstalk\Job(1, '{"name": "test", "data": []}'));
 
         $driver = new BeanstalkDriver($pheanstalk);
 
-        $driver->resolveJob();
+        $driver->resolveJob('test');
     }
 }
